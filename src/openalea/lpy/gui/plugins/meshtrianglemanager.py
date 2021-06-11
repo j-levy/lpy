@@ -10,6 +10,7 @@ import openalea.plantgl.all as pgl
 from openalea.plantgl.gui.qt.QtWidgets import QFileDialog
 from openalea.plantgl.codec.obj import codec as obj_codec
 from openalea.plantgl.codec.obj import Group
+import os.path
 
 
 class MeshTriangleManager(AbstractPglObjectManager):
@@ -17,10 +18,6 @@ class MeshTriangleManager(AbstractPglObjectManager):
 
     def __init__(self):
         AbstractPglObjectManager.__init__(self, "MeshTriangle")
-
-    def displayThumbnail(self, obj, i, focus, objectthumbwidth):
-        # raise NotImplementedError('displayThumbnail')
-        return None
 
     # TODO: check if editor functions are relevant for this use case (is there a 3D editor in PlantGL for meshes? And should we use it?)
     def getEditor(self, parent_widget):
@@ -40,7 +37,7 @@ class MeshTriangleManager(AbstractPglObjectManager):
         print(fname)
         fname = fname[0]
         scene = obj_codec.read(fname)
-        scene.name = ""
+        scene.name = os.path.basename(fname)
         self.setObjectToEditor(editor, scene)
 
     def setObjectToEditor(self, editor, obj):
