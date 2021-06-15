@@ -68,8 +68,8 @@ class MeshTriangleManager(AbstractPglObjectManager):
                         (0, 1, 3),
                         (1, 2, 3),
                         (0, 2, 3)]  #
-        s = Group('').shape(vertices=vertices, normals=connectivity, textures=[])
-        scene.add(s)
+        s = pgl.TriangleSet(vertices, connectivity)
+        scene.add(pgl.Shape(s))
         # FIXME: this doesn't work, I don't know why yet
         return scene
 
