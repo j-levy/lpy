@@ -91,6 +91,7 @@ setup(
         pkg_name + '.lsysparameters',
         pkg_name + '.lsysparameters.schema',
         pkg_name + '.gui.plugins',
+        pkg_name + '.gui.objcatalog',
         pkg_name + '.cpfg_compat'
     ],
 
@@ -99,6 +100,13 @@ setup(
 
     package_data={
         "": ['*.pyd', '*.so', '*.dylib', '*.lpy','*.ui','*.qrc','*.json'],
+        f"{pkg_name}.gui.objcatalog": 
+            [
+                "assets/*/*.obj", 
+                "assets/*/*.mtl", 
+                "assets/*/*.jpg", 
+                "assets/*/*.png"
+            ]
     },
 
     # Add package platform libraries if any

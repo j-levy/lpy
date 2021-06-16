@@ -1,13 +1,16 @@
 
+from PyQt5.QtWidgets import QDialog
 from openalea.plantgl.gui.objloader import ObjLoader
 
 from openalea.lpy.gui.abstractobjectmanager import *
+from openalea.lpy.gui.objcatalog.catalog import Catalog
+
 from openalea.plantgl.gui.qt import QtGui, QtWidgets
 
 from openalea.plantgl.all import Scene, Polyline
 
 import openalea.plantgl.all as pgl
-from openalea.plantgl.gui.qt.QtWidgets import QFileDialog
+from openalea.plantgl.gui.qt.QtWidgets import QFileDialog, QAction
 from openalea.plantgl.codec.obj import codec as obj_codec
 from openalea.plantgl.codec.obj import Group
 import os.path
@@ -28,17 +31,28 @@ class MeshTriangleManager(AbstractPglObjectManager):
     def fillEditorMenu(self, menubar, editor):
         """ Function call to fill the menu of the editor """
         menu = QtWidgets.QMenu('File', menubar)
-        menu.addAction('Load .obj', lambda: self.loadObj(editor))
+        menu.addAction('Load .obj', lambda: self.loadObjFileDialog(editor))
+        exampleObjMenu = QtWidgets.QMenu('Load example .obj', menu)
+        c = Catalog()
+        exampleObj = c.list_paths()
+        for obj in exampleObj:
+            exampleObjMenu.addAction(obj, lambda unit=obj: self.loadObj(exampleObj[unit], editor))
+        menu.addMenu(exampleObjMenu)
         menubar.addMenu(menu)
 
-    def loadObj(self, editor):
-        fname = QFileDialog.getOpenFileName(editor, 'Open file',
+    def loadObjFileDialog(self, editor):
+        filesSelected = QFileDialog.getOpenFileName(editor, 'Open file',
             '~',"Obj files (*.obj)")
-        print(fname)
-        fname = fname[0]
-        scene = obj_codec.read(fname)
-        scene.name = os.path.basename(fname)
-        self.setObjectToEditor(editor, scene)
+        fname = filesSelected[0]
+        self.loadObj(fname, editor)
+
+    def loadObj(self, fname, editor):
+        if fname != None:
+            scene = obj_codec.read(fname)
+            scene.name = os.path.basename(fname)
+            self.setObjectToEditor(editor, scene)
+        else:
+            pass
 
     def setObjectToEditor(self, editor, obj):
         """ ask for edition of obj with editor. Should be reimplemented """
