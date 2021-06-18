@@ -12,6 +12,7 @@ import openalea.plantgl.all as pgl
 from openalea.plantgl.gui.qt.QtWidgets import QFileDialog
 from openalea.plantgl.codec.obj import Group
 """
+from openalea.plantgl.gui.qt.QtGui import *
 from openalea.plantgl.codec.obj import codec as obj_codec
 import pkg_resources
 import re
@@ -39,5 +40,7 @@ class Catalog():
             res[obj] = self.path(obj)
         return res
 
-
+class CatalogDock(QDockWidget):
+    def __init__(self,parent,name,panelmanager = None):    
+        QDockWidget.__init__(self,parent)
 

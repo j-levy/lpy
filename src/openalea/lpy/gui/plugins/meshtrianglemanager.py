@@ -1,10 +1,9 @@
 
 from PyQt5.QtWidgets import QDialog
-from openalea.plantgl.gui.objloader import ObjLoader
+from openalea.lpy.gui.catalog.catalog import Catalog, CatalogDock
 
 from openalea.lpy.gui.abstractobjectmanager import *
-from openalea.lpy.gui.objcatalog.catalog import Catalog
-
+from openalea.lpy.gui.catalog.meshloader import MeshLoader
 from openalea.plantgl.gui.qt import QtGui, QtWidgets
 
 from openalea.plantgl.all import Scene, Polyline
@@ -12,7 +11,6 @@ from openalea.plantgl.all import Scene, Polyline
 import openalea.plantgl.all as pgl
 from openalea.plantgl.gui.qt.QtWidgets import QFileDialog, QAction
 from openalea.plantgl.codec.obj import codec as obj_codec
-from openalea.plantgl.codec.obj import Group
 import os.path
 
 
@@ -26,7 +24,7 @@ class MeshTriangleManager(AbstractPglObjectManager):
     def getEditor(self, parent_widget):
         """ ask for creation of editor. Should be reimplemented """
         # raise NotImplementedError('getEditor')
-        return ObjLoader(parent_widget)
+        return MeshLoader(parent_widget)
 
     def fillEditorMenu(self, menubar, editor):
         """ Function call to fill the menu of the editor """
@@ -52,7 +50,8 @@ class MeshTriangleManager(AbstractPglObjectManager):
             scene.name = os.path.basename(fname)
             self.setObjectToEditor(editor, scene)
         else:
-            pass
+            import warnings
+            warnings.warn(f'Can\'t load file {fname}.')
 
     def setObjectToEditor(self, editor, obj):
         """ ask for edition of obj with editor. Should be reimplemented """
@@ -84,7 +83,6 @@ class MeshTriangleManager(AbstractPglObjectManager):
                         (0, 2, 3)]  #
         s = pgl.TriangleSet(vertices, connectivity)
         scene.add(pgl.Shape(s))
-        # FIXME: this doesn't work, I don't know why yet
         return scene
 
     def writeObject(self, obj, indentation):
