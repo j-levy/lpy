@@ -1,15 +1,13 @@
 
 from PyQt5.QtWidgets import QDialog
-from openalea.lpy.gui.catalog.catalog import Catalog, CatalogDock
+from openalea.lpy.gui.catalog.catalog import Catalog, CatalogDockWidget
 
 from openalea.lpy.gui.abstractobjectmanager import *
 from openalea.lpy.gui.catalog.meshloader import MeshLoader
 from openalea.plantgl.gui.qt import QtGui, QtWidgets
 
-from openalea.plantgl.all import Scene, Polyline
-
 import openalea.plantgl.all as pgl
-from openalea.plantgl.gui.qt.QtWidgets import QFileDialog, QAction
+from openalea.plantgl.gui.qt.QtWidgets import QFileDialog
 from openalea.plantgl.codec.obj import codec as obj_codec
 import os.path
 

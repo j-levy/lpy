@@ -8,12 +8,15 @@ from openalea.plantgl.gui.qt import QtGui, QtWidgets
 
 from openalea.plantgl.all import Scene, Polyline
 
-import openalea.plantgl.all as pgl
 from openalea.plantgl.gui.qt.QtWidgets import QFileDialog
 from openalea.plantgl.codec.obj import Group
 """
+import openalea.plantgl.all as pgl
+from openalea.plantgl.gui.qt import QtGui
 from openalea.plantgl.gui.qt.QtGui import *
 from openalea.plantgl.codec.obj import codec as obj_codec
+from openalea.lpy.gui.objectpanel import LpyObjectPanelDock
+
 import pkg_resources
 import re
 
@@ -40,7 +43,22 @@ class Catalog():
             res[obj] = self.path(obj)
         return res
 
-class CatalogDock(QDockWidget):
-    def __init__(self,parent,name,panelmanager = None):    
+class CatalogDockWidget(QDockWidget):
+    panelmanager : QWidget = None
+    def __init__(self, parent, name, panelmanager: QWidget):
         QDockWidget.__init__(self,parent)
+        self.setBaseSize(600, 400)
+        self.setMinimumSize(300, 200)
+        self.panelmanager = panelmanager
+        self.setObjectName(name.replace(' ','_'))
+        self.name = name
 
+    
+
+
+if __name__ == '__main__':
+    qapp = QtGui.QApplication([])
+    mv = CatalogDockWidget(parent=None, name="TestCatalogDockWidget", panelmanager=QWidget())
+    mv.setEnabled(True)
+    mv.show()
+    qapp.exec_()
